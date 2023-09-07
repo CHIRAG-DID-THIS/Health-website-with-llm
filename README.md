@@ -11,6 +11,6 @@ Setup:
   - `npm install firebase firebase-tools` (ignore the warnings)
   - `firebase login`
   - `npx firebase-tools init`
-    - Select "Realtime database" for now. More functionalities can be added later.
-    - Select "Use an existing project"
-    - This will automatically show you the "therapy-fc975" project present in firebase.
+    - Select **"Realtime database"** for now. More functionalities can be added later.
+    - Select **"Use an existing project"**
+    - This will automatically show you the **"therapy-fc975"** project present in firebase.
