@@ -10,6 +10,7 @@ import { BsFillMicFill } from "react-icons/bs";
 import { cs1, cs2 } from "../assets/whatsapp";
 import { getTime } from "../logic/whatsapp";
 import StandardReply from "./StandardReply";
+import AutoReply from "./AutoReply";
 
 function ChatDetail() {
   const [messages, setMessages] = useState(messagesData);
@@ -78,6 +79,7 @@ function ChatDetail() {
   });
 
   return (
+    
     // ChatDetail main container
     <div className="flex flex-col h-screen">
       {/* Contact nav 202d33*/}
@@ -113,18 +115,22 @@ function ChatDetail() {
         className="bg-[#0a131a] bg-[url('assets/images/bgwhite.webp')] bg-contain overflow-y-scroll h-100"
         style={{ padding: "12px 7%" }}
       >
-        {messages.map((msg) => (
-          <Message
-            msg={msg.msg}
-            time={msg.time}
-            isLink={msg.isLink}
-            img={msg.img}
-            sent={msg.sent}
-            
-          />
-          
-        )         
-        )}
+       {messages.map((msg, index) => (
+  <React.Fragment key={index}>
+    <Message
+      msg={msg.msg}
+      time={msg.time}
+      isLink={msg.isLink}
+      img={msg.img}
+      sent={msg.sent}
+    />
+    <AutoReply 
+      msg={msg.msg}
+      time={msg.time}
+    />
+  </React.Fragment>
+))}
+
         <div ref={bottomRef} />
       </div>
 

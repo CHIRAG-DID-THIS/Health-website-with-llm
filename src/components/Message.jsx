@@ -1,6 +1,11 @@
 import React from "react";
+import { useMessageContext } from "./MessageContext";
+import AutoReply from './AutoReply';
+
 
 function Message({ msg, time, isLink, img, sent }) {
+  // const { addMessage } = useMessageContext();
+
   return (
     // Message container
     <div
@@ -44,6 +49,7 @@ function Message({ msg, time, isLink, img, sent }) {
           <p className="text-[#8796a1] text-[10px] min-w-[50px]">{time}</p>
         </div>
       )}
+      {/* { sent && <AutoReply msg={msg} time={time} /> } */}
     </div>
   );
 }
