@@ -13,6 +13,8 @@ const openai = new OpenAIApi({
 
 function AutoReply({ msg }) {
     const [gptReply, setGptReply] = useState('');
+    const [isLoading, setIsLoading] = useState(true);
+
 
     useEffect(() => {
         const processMessage = async () => {
@@ -57,17 +59,30 @@ function AutoReply({ msg }) {
     };
     
         
-    return (
-        <div className="flex justify-start items-center bg-green-500 rounded-md w-fit my-1">
-            <div className="flex justify-between items-end max-w-[410px] p-2" style={{ wordBreak: "break-word" }}>
-                <p className="text-white text-sm mr-2">{gptReply}</p>
-                <p className="text-gray-300 text-[10px] min-w-[50px]">{new Date().toLocaleTimeString()}</p>
-            </div>
-        </div>
-    );
-}
+    useEffect(() => {
+        // Simulate data fetching
+        setTimeout(() => {
+          setGptReply("Processing data...");
+          setIsLoading(false);
+        },); 
+      }, []);
+    
+      return (
+        <div className={`flex justify-start items-center bg-green-500 rounded-md w-fit my-1 ${isLoading ? 'animate-pulse' : ''}`}>
+          <div className="flex justify-between items-end max-w-[410px] p-2" style={{ wordBreak: "break-word" }}>
+            <p className={`text-white text-sm mr-2 ${isLoading ? 'font-bold' : ''}`}>
+              {isLoading ? ". . ." : gptReply}
+            </p>
+            <p className="text-gray-300 text-[10px] min-w-[50px]">
+  {new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+</p>
 
-export default AutoReply;
+          </div>
+        </div>
+      );
+    }
+    
+    export default AutoReply;
 
 
 
