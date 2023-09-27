@@ -35,13 +35,22 @@ import GoogleSignin from "./img/btn_google_signin_dark_pressed_web.png";
 const LoginScreen =  () => {
   const googleSignIn = () => {
     const provider = new GoogleAuthProvider();
-    try{
-      signInWithRedirect(auth, provider);
-  }
-  catch(error){
-    console.log("runtime error")
-  }
-  };
+    
+    signInWithPopup(auth, provider)
+    .then(result => {
+        // Handle the result of the sign-in here if necessary
+    })
+    .catch(error => {
+        if (error.code === 'auth/popup-closed-by-user') {
+            console.log('User closed the popup before signing in.');
+            // Provide some feedback to the user or log the event.
+        } else {
+            // Handle other errors.
+            console.error(error);
+        }
+    });
+};
+
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-[#000C66]">
