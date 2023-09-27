@@ -38,14 +38,11 @@ const LoginScreen =  () => {
     
     signInWithPopup(auth, provider)
     .then(result => {
-        // Handle the result of the sign-in here if necessary
     })
     .catch(error => {
         if (error.code === 'auth/popup-closed-by-user') {
             console.log('User closed the popup before signing in.');
-            // Provide some feedback to the user or log the event.
         } else {
-            // Handle other errors.
             console.error(error);
         }
     });
