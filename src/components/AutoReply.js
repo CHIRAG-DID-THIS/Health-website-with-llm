@@ -11,23 +11,22 @@ const openai = new OpenAIApi({
     dangerouslyAllowBrowser: true
 });
 
-function AutoReply({ msg }) {
+function AutoReply({ msg,onLoadingStateChange }) {
     const [gptReply, setGptReply] = useState('');
     const [isLoading, setIsLoading] = useState(true);
 
 
     useEffect(() => {
-        const processMessage = async () => {
-            // Step 1: Correct the user's message
-            let correctedMsg = await checkGrammarAndSpelling(msg);
-            
-            // Step 2: Get GPT's reply
-            let gptResponse = await getGPTReply(correctedMsg);
-            setGptReply(gptResponse);
-        };
-
-        processMessage();
-    }, [msg]);
+      const processMessage = async () => {
+          onLoadingStateChange(true); // Inform parent that loading has started
+          let correctedMsg = await checkGrammarAndSpelling(msg);
+          let gptResponse = await getGPTReply(correctedMsg);
+          setGptReply(gptResponse);
+          setIsLoading(false); 
+          onLoadingStateChange(false);
+      };
+      processMessage();
+  }, [msg]);
 
     const checkGrammarAndSpelling = async (text) => {
         // Use nodehun to check and correct text
@@ -59,13 +58,13 @@ function AutoReply({ msg }) {
     };
     
         
-    useEffect(() => {
-        // Simulate data fetching
-        setTimeout(() => {
-          setGptReply("Processing data...");
-          setIsLoading(false);
-        },); 
-      }, []);
+    // useEffect(() => {
+    //     // Simulate data fetching
+    //     setTimeout(() => {
+    //       setGptReply("...");
+    //       setIsLoading(false);
+    //     },); 
+    //   }, []);
     
       return (
         <div className={`flex justify-start items-center bg-green-500 rounded-md w-fit my-1 ${isLoading ? 'animate-pulse' : ''}`}>
@@ -76,10 +75,12 @@ function AutoReply({ msg }) {
             <p className="text-gray-300 text-[10px] min-w-[50px]">
   {new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
 </p>
-
+          
           </div>
         </div>
+        
       );
+      
     }
     
     export default AutoReply;
