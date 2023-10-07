@@ -29,48 +29,48 @@
 // export default LoginScreen;
 import React from "react";
 import { auth } from "./firebaseConfig";
-import { GoogleAuthProvider, signInWithPopup,signInWithRedirect } from "firebase/auth";
-import GoogleSignin from "./img/btn_google_signin_dark_pressed_web.png";
+import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
+import GoogleSignin from "./img/glogo.webp";
 
-const LoginScreen =  () => {
+const LoginScreen = () => {
   const googleSignIn = () => {
     const provider = new GoogleAuthProvider();
-    
-    signInWithPopup(auth, provider)
-    .then(result => {
-    })
-    .catch(error => {
-        if (error.code === 'auth/popup-closed-by-user') {
-            console.log('User closed the popup before signing in.');
-        } else {
-            console.error(error);
-        }
-    });
-};
 
+    signInWithPopup(auth, provider)
+      .then((result) => {})
+      .catch((error) => {
+        if (error.code === "auth/popup-closed-by-user") {
+          console.log("User closed the popup before signing in.");
+        } else {
+          console.error(error);
+        }
+      });
+  };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-[#000C66]">
-      <div className="bg-white p-8 rounded-lg shadow-lg max-w-md w-full mx-4">
-        <h2 className="text-3xl items-center font-semibold mb-4">Welcome to Therapy Chat</h2>
-        {/* <p className="text-gray-600 mb-6">Sign in with Google to chat.</p> */}
-        
+<div className="min-h-screen flex items-center justify-center bg-[url('bgmodified.png')] bg-cover bg-center">
+     {/* <div className="min-h-screen flex items-center justify-center bg-[#000C66]"> */}
+      <div className="bg p-8 rounded-lg shadow-lg max-w-md w-full mx-4 opacity-100">
+        <h2 className="text-3xl text-center font-semibold mb-4">
+          Welcome to Therapy Chat
+        </h2>
+
         <button
-          className="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded-lg focus:outline-none focus:ring focus:ring-blue-200 w-full"
           onClick={googleSignIn}
+          className="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded-full focus:outline-none focus:ring focus:ring-blue-200 w-full flex items-center"
         >
-              {/* <img
-                src={GoogleSignin}
-                alt="sign in with google"
-                className="w-6 h-6 mr-2"
-              /> */}
-          Sign In with Google
+          <div className="flex items-center justify-center w-10 h-10 bg-white rounded-full mr-2">
+            <img
+              src={GoogleSignin}
+              alt="sign in with google"
+              className="w-6 h-6"
+            />
+          </div>
+          <span className="text-center w-full">Sign In with Google</span>
         </button>
       </div>
     </div>
-    
   );
 };
 
 export default LoginScreen;
-

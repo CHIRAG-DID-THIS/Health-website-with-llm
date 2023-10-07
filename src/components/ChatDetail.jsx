@@ -27,9 +27,8 @@ function ChatDetail() {
   const handleToggleSignOutOptions = () => {
     setShowSignOutOptions(!showSignOutOptions);
   };
-  const botFinishedReplying = () => {
-    setTyping(false);
-};
+
+
 const [botIsTyping, setBotIsTyping] = useState(false);
 
 
@@ -51,8 +50,7 @@ const [botIsTyping, setBotIsTyping] = useState(false);
   };
 
   const closeSignOutDialog = () => {
-    setIsSignOutDialogOpen(false);
-  };
+    setShowSignOutOptions(false);  };
 
   const signOut = () => {
     // Perform Firebase Google sign out logic here
@@ -71,7 +69,23 @@ const [botIsTyping, setBotIsTyping] = useState(false);
     closeSignOutDialog();
   };
 
-  // Functions
+  useEffect(() => {
+    function handleClickOutside(event) {
+      if (
+        showSignOutOptions &&
+        !event.target.closest('.sign-out-menu') && // Using closest for a more robust check
+        !event.target.closest('.sign-out-button')
+      ) {
+        closeSignOutDialog();
+      }
+    }
+  
+    document.addEventListener('mousedown', handleClickOutside);
+  
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [showSignOutOptions]);
 
   const addMessage = (msg) => {
     const newMessages = [...messages, msg];
@@ -108,14 +122,6 @@ const [botIsTyping, setBotIsTyping] = useState(false);
     }
   };
 
-  const sendStandardReply = () => {
-    addMessage({
-      msg: "Hey buddy", // Standard reply message
-      time: getTime(),
-      sent: false, // Set sent to false to indicate it's a received message
-    });
-  };
-
   useEffect(() => {
     bottomRef.current?.scrollIntoView({
       behavior: "smooth",
@@ -149,7 +155,7 @@ const [botIsTyping, setBotIsTyping] = useState(false);
           {/* Info */}
           <div className="flex flex-col">
             {/* Contact */}
-            <h1 className="text-white font-medium">Chat Bot</h1>
+            <h1 className="text-white font-medium">Caretaker Bot</h1>
 
             {/* Status */}
             <p className="text-[#8796a1] text-xs">{botIsTyping ? 'typing' : 'online'}</p>
@@ -159,26 +165,18 @@ const [botIsTyping, setBotIsTyping] = useState(false);
 
         {/* Buttons or Sign Out options */}
         <div
-  className="relative flex justify-between items-center w-[85px]"
+  className="relative flex justify-between items-center w-[85px] sign-out-button"
   onClick={handleToggleSignOutOptions}
 >
   {showSignOutOptions ? (
-    <div className="absolute mt-5 right-0 w-32 bg-[#000C66] text-white rounded-md shadow-md md:w-48 md:right-5">
+    <div className="absolute mt-1 right-0 w-32 bg-[#000C66] text-white rounded-md shadow-md md:w-48 md:right-5 sign-out-menu">
       <ul>
         <li>
           <button
             onClick={signOut}
             className="block w-full text-left px-4 py-1 focus:outline-none"
           >
-            Sign Out
-          </button>
-        </li>
-        <li>
-          <button
-            onClick={closeSignOutDialog}
-            className="block w-full text-left px-4 py-2 focus:outline-none"
-          >
-            Close
+            LOGOUT
           </button>
         </li>
       </ul>
@@ -191,7 +189,7 @@ const [botIsTyping, setBotIsTyping] = useState(false);
 
       {/* Messages section */}
       <div
-        className="bg-[#0a131a] bg-[url('assets/images/bgwhite.webp')] bg-contain overflow-y-scroll h-100"
+        className="bg-[#FFFFFF] bg-center bg-no-repeat bg-cover w-full bg-[url('assets/images/bglogo.webp')] bg-contain  overflow-y-scroll h-100"
         style={{ padding: "12px 7%" }}
       >
         {messages.map((msg, index) => (
