@@ -1,0 +1,10 @@
+/* LoginScreen.css */
+.neuron {
+    width: 10px;
+    height: 10px;
+    background-color: #ff5733; /* Customize the color */
+    border-radius: 50%;
+    position: absolute;
+    transform: translate(-50%, -50%);
+  }
+  

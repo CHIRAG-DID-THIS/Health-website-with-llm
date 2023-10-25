@@ -67,7 +67,7 @@ function AutoReply({ msg,onLoadingStateChange }) {
     //   }, []);
     
       return (
-        <div className={`flex justify-start items-center bg-green-500 rounded-md w-fit my-1 ${isLoading ? 'animate-pulse' : ''}`}>
+        <div className={`flex justify-start items-center bg-[#40B5AD] rounded-md w-fit my-1 ${isLoading ? 'animate-pulse' : ''}`}>
           <div className="flex justify-between items-end max-w-[410px] p-2" style={{ wordBreak: "break-word" }}>
             <p className={`text-white text-sm mr-2 ${isLoading ? 'font-bold' : ''}`}>
               {isLoading ? ". . ." : gptReply}

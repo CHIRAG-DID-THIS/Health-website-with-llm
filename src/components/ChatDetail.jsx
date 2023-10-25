@@ -3,7 +3,7 @@ import Message from "./Message";
 import RoundedBtn from "./Common/RoundedBtn";
 import { messagesData } from "../data/whatsapp";
 import { MdSearch, MdSend } from "react-icons/md";
-import { HiDotsVertical } from "react-icons/hi";
+import { HiDotsHorizontal, HiDotsVertical } from "react-icons/hi";
 import { BiHappy } from "react-icons/bi";
 import { AiOutlinePaperClip } from "react-icons/ai";
 import { BsFillMicFill } from "react-icons/bs";
@@ -14,9 +14,11 @@ import AutoReply from "./AutoReply";
 import Modal from "react-modal";
 import { auth } from '../firebaseConfig'; // Import your Firebase configuration
 
-function ChatDetail() {
+function ChatDetail({ toggleLeftMenu, isLeftMenuOpen }) {
   const [messages, setMessages] = useState(messagesData);
   const [typing, setTyping] = useState(true);
+  const [suggestions, setSuggestions] = useState([]); // State for suggestions
+
 
   const inputRef = useRef(null);
   const bottomRef = useRef(null);
@@ -136,15 +138,26 @@ const [botIsTyping, setBotIsTyping] = useState(false);
     document.addEventListener("keydown", listener);
     return () => document.removeEventListener("keydown", listener);
   });
+  const addSuggestion = (suggestion) => {
+    setSuggestions((prevSuggestions) => [...prevSuggestions, suggestion]);
+  };
+
+  // Example of adding suggestions
+  useEffect(() => {
+    const sampleSuggestions = ["Tell me a joke", "What's the weather like?", "Recommend a book"];
+    setSuggestions(sampleSuggestions);
+  }, []);
 
   // Render the component
   return (
     // ChatDetail main container
-    <div className="flex flex-col h-screen">
+    <div className="flex flex-col h-screen bg-[#000C66]">
       {/* Contact nav */}
       <div className="flex justify-between bg-[#000C66] h-[60px] p-3">
         {/* Contact info */}
         <div className="flex items-center">
+          {/* Toggle Left Menu button */}
+        <button onClick={toggleLeftMenu}><RoundedBtn icon={<HiDotsHorizontal />} /></button>
           {/* Profile picture */}
           <img
             src={cs1}
@@ -155,7 +168,7 @@ const [botIsTyping, setBotIsTyping] = useState(false);
           {/* Info */}
           <div className="flex flex-col">
             {/* Contact */}
-            <h1 className="text-white font-medium">Caretaker Bot</h1>
+            <h1 className="text-white font-medium">Odin</h1>
 
             {/* Status */}
             <p className="text-[#8796a1] text-xs">{botIsTyping ? 'typing' : 'online'}</p>
@@ -188,33 +201,72 @@ const [botIsTyping, setBotIsTyping] = useState(false);
       </div>
 
       {/* Messages section */}
-      <div
-        className="bg-[#FFFFFF] bg-center bg-no-repeat bg-cover w-full bg-[url('assets/images/bglogo.webp')] bg-contain  overflow-y-scroll h-100"
-        style={{ padding: "12px 7%" }}
-      >
-        {messages.map((msg, index) => (
-          <React.Fragment key={index}>
-            <Message
-              msg={msg.msg}
-              time={msg.time}
-              isLink={msg.isLink}
-              img={msg.img}
-              sent={msg.sent}
-            />
-            <AutoReply 
-    msg={msg.msg}
-    time={msg.time}
-    onLoadingStateChange={handleBotLoadingStateChange}
-/>
+<div
+className="bg-[#FFFFFF] bg-center bg-no-repeat bg-contain w-full bg-[url('assets/images/bglogo.webp')] overflow-y-scroll h-100"
+style={{ padding: "12px 7%" }}
+>
+  {messages.map((msg, index) => (
+    <React.Fragment key={index}>
+      <Message
+        msg={msg.msg}
+        time={msg.time}
+        isLink={msg.isLink}
+        img={msg.img}
+        sent={msg.sent}
+      />
+      <AutoReply 
+        msg={msg.msg}
+        time={msg.time}
+        onLoadingStateChange={handleBotLoadingStateChange}
+      />
+    </React.Fragment>
+  ))}
 
-          </React.Fragment>
-        ))}
+  <div ref={bottomRef} />
 
-        <div ref={bottomRef} />
-      </div>
+  {/* Suggestions */}
+  {/* {messages.length === 0 && (
+    <div className="suggestions-container flex justify-center items-center space-x-2">
+      {suggestions.map((suggestion, index) => (
+        <div
+          key={index}
+          className="bg-[#40B5AD] border border-blue-500 rounded-lg px-2 py-1 cursor-pointer"
+          onClick={() => inputRef.current.value = suggestion}
+        >
+          {suggestion}
+        </div>
+      ))}
+    </div>
+  )} */}
+</div>
 
       {/* Bottom section */}
-      <div className="flex items-center bg-[#000C66] w-100 h-[70px] p-2">
+     
+
+      
+      {/* <div className="flex items-center bg-[#000C66] w-100 h-[70px] p-2"> */}
+      {messages.length === 0 && (
+  <div className="flex items-center justify-center bg-[#000C66] mx-auto w-full max-w-[1200px] h-[70px] p-2">
+          <div className="text-white">Try asking:- </div>
+    <div className="suggestions-container flex space-x-2">
+      {suggestions.map((suggestion, index) => (
+        <div
+          key={index}
+          className="border border-dotted border-white rounded-lg text-white px-2 py-1 cursor-pointer"
+          onClick={() => inputRef.current.value = suggestion}
+        >
+          {suggestion}
+        </div>
+      ))}
+    </div>
+  </div>
+)}
+
+
+
+      <div className="flex items-center bg-[#000C66] mx-auto w-full max-w-[1200px] h-[70px] p-2">
+
+
         {/* Emoji btn */}
         <RoundedBtn icon={<BiHappy />} onClick={handleEmojiClick} />
 

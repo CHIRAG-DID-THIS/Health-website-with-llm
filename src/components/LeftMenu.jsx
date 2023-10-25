@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Chats from "./Chats";
 import RoundedBtn from "./Common/RoundedBtn";
 import { MdPeopleAlt } from "react-icons/md";
@@ -7,53 +7,107 @@ import { BsFillChatLeftTextFill } from "react-icons/bs";
 import { HiDotsVertical } from "react-icons/hi";
 import { BiFilter } from "react-icons/bi";
 import { pp } from "../assets/whatsapp";
+import { MdSend } from "react-icons/md";
+import { auth } from '../firebaseConfig'; // Import your Firebase configuration
+
 
 function LeftMenu() {
   const [filter, setFilter] = useState(false);
+  const [menuOpen, setMenuOpen] = useState(window.innerWidth >= 768);
+  const [isSignOutDialogOpen, setIsSignOutDialogOpen] = useState(false);
+  const [showSignOutOptions, setShowSignOutOptions] = useState(false);
+const closeSignOutDialog = () => {
+  setShowSignOutOptions(false);  };
+const signOut = () => {
+  // Perform Firebase Google sign out logic here
+  // You'll need to implement your sign-out functionality
+  auth.signOut().then(function() {
+    /* Sign-out successful. */
+    console.log('Sign-out successful.');
+    // You can redirect the user to the sign-in page or perform any other desired action
+  }).catch(function(error) {
+    /* An error happened. */
+    console.error('Sign-out error:', error);
+  });
+  // Once signed out, you can close the dialog box or perform any other desired action
+
+  // Close the dialog box
+  closeSignOutDialog();
+};
+
+  useEffect(() => {
+    const handleResize = () => {
+      setMenuOpen(window.innerWidth >= 768);
+    };
+
+    window.addEventListener("resize", handleResize);
+
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
+
+  const toggleMenu = () => {
+    setMenuOpen(!menuOpen);
+  };
 
   return (
-    // LeftMenu container
-    <div className="flex flex-col border-r border-neutral-700 w-100 h-screen">
-      {/* Profile nav */}
-      <div className="flex justify-between items-center bg-[#202d33] h-[60px] p-3">
-        {/* Profile picture */}
-        <img src={pp} alt="profile_picture" className="rounded-full w-[40px]" />
+//     <div className={`flex flex-col bg-[#001451] border-r border-neutral-700 w-100 h-screen ${menuOpen ? 'menu-open' : 'menu-closed'}`}>
+//       <div className="flex justify-between items-center bg-[#000C66] h-[60px] p-3 relative">
+//   <p className="text-white">Odin.ai <span className="bg-green-500 text-white text-xs px-0.5 py-0.5 rounded-md relative top-[-0.4rem]">Beta</span>
 
-        {/* Profile nav buttons */}
-        <div className="flex justify-between w-[175px]">
-          <RoundedBtn icon={<MdPeopleAlt />} />
-          <RoundedBtn icon={<TbCircleDashed />} />
-          <RoundedBtn icon={<BsFillChatLeftTextFill />} />
-          <RoundedBtn icon={<HiDotsVertical />} />
-        </div>
-      </div>
+// </p>
+// </div>
 
-      {/* Search and filter */}
-      <div className="flex justify-between items-center h-[60px] p-2">
-        {/* Search input */}
-        <input
-          type="text"
-          placeholder="Search or start a new chat"
-          className="rounded-lg bg-[#202d33] text-[#8796a1] text-sm font-light outline-none px-4 py-2 w-[400px] h-[35px] placeholder:text-[#8796a1] placeholder:text-sm placeholder:font-light"
-        />
 
-        {/* Filter button */}
-        <button
-          className={`text-2xl m-2 p-1 rounded-full ${
-            filter
-              ? "bg-emerald-500 text-white rounded-full hover:bg-emerald-700"
-              : "text-[#8796a1] hover:bg-[#3c454c]"
-          }`}
-          onClick={() => setFilter(!filter)}
-        >
-          <BiFilter />
-        </button>
-      </div>
+//       <div className="flex justify-between items-center h-[60px] p-2">
+//       <p className="text-white">Manage Credits</p>      
+//       </div>
+//       <div className="flex justify-between items-center h-[60px] p-2">
+//         <p className="text-white">Help</p>
+//       </div>
+//       <button
+//             onClick={signOut}
+//             className="flex justify-between items-center h-[60px] p-2"
+//           >
+//           <p className="text-white">Sign out</p>
+//       </button>
+//     </div>
+<div className={`flex flex-col bg-[#001451] border-r border-neutral-700 w-100 h-screen ${menuOpen ? 'menu-open' : 'menu-closed'}`}>
+  <div className="flex justify-between items-center bg-[#000C66] h-[60px] p-3 relative">
+    <p className="text-white group">
+      Odin.ai{" "}
+      <span className="bg-green-500 text-white text-xs px-0.5 py-0.5 rounded-md relative top-[-0.4rem] group-hover:bg-[#001451]">
+        Beta
+      </span>
+    </p>
+  </div>
 
-      {/* Chats */}
-      <Chats filter={filter} />
-    </div>
+  <div className="flex justify-between items-center h-[60px] p-2 hover:bg-blue-500">
+    <p className="text-white group">
+      Manage Credits
+    </p>
+</div>
+
+
+  <div className="flex justify-between items-center h-[60px] p-2 hover:bg-blue-500">
+    <p className="text-white group">
+      Help
+    </p>
+</div>
+
+
+  <button onClick={signOut} className="flex justify-between items-center h-[60px] p-2 hover:bg-blue-500">
+    <p className="text-white group">
+      Sign out
+    </p>
+  </button>
+</div>
+
+
   );
 }
 
 export default LeftMenu;
+
+
