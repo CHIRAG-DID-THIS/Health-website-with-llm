@@ -5,7 +5,7 @@ import { FaLock } from "react-icons/fa";
 
 function LoadingScreen({ progress }) {
   return (
-    <div className="flex flex-col justify-center items-center min-h-screen flex items-center justify-center bg-[url('assets/images/stock.png')] bg-cover bg-center w-screen h-screen">
+    <div className="flex flex-col justify-center items-center min-h-screen flex items-center justify-center bg-[url('assets/images/newbgh.gif')] bg-cover bg-center w-screen h-screen">
       {/* WhatsApp Icon */}
       <span className="text-[#3d464a] text-6xl my-12">
         {/* <BsWhatsapp /> */}
@@ -23,7 +23,7 @@ function LoadingScreen({ progress }) {
         {/* Text section */}
         <div className="flex flex-col items-center">
           {/* WhatsApp name c1c6c9*/}
-          <h1 className="text-[#000000] text-lg font-medium">Odin.ai</h1>
+          <h1 className="text-[#FFFFFF] text-lg font-medium">Odin.ai</h1>
 
           {/* Text later we will put our moto here*/}
           {/* <div className="flex items-center text-[#687782]"> */}

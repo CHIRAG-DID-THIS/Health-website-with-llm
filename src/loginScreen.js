@@ -49,7 +49,7 @@ const LoginScreen = () => {
   
 
   return (
-<div class="min-h-screen flex items-center justify-center bg-[url('assets/images/stock.png')] bg-cover bg-center w-full h-full">
+<div class="min-h-screen flex items-center justify-center bg-[url('assets/images/newbgh.gif')] bg-cover bg-center w-full h-full">
      {/* <div className="min-h-screen flex items-center justify-center bg-[#000C66]"> */}
       <div className="bg p-8 rounded-lg shadow-lg max-w-md w-full mx-4 opacity-60 bg-white">
         <h2 className="text-3xl text-center font-semibold mb-4">
